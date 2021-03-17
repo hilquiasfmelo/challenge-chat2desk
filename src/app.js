@@ -1,11 +1,24 @@
 import express from 'express';
 
-const app = express();
+import routes from './routes';
 
-app.use(express.json());
+import './database';
 
-app.get('/', (request, response) => {
-  return response.json({ message: 'Hello World' });
-});
+class App {
+  constructor() {
+    this.server = express();
 
-export default app;
+    this.middlewares();
+    this.routes();
+  }
+
+  middlewares() {
+    this.server.use(express.json());
+  }
+
+  routes() {
+    this.server.use(routes);
+  }
+}
+
+export default new App().server;
